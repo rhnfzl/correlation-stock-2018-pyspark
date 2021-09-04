@@ -1,5 +1,31 @@
 ## Data Engineering : Correlation Measure on 2018 Stock Market Dataset
 
+
+### Goal
+
+To find high multiple correlations of size , i.e., correlations between the vectors, that are over a threshold, or set it as an input parameter of the code.
+
+As correlation measures, you should consider (at least) the following two:
+
+- [Total correlation](https://en.wikipedia.org/wiki/Total_correlation)
+- [Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), where the vectors of the two sides are computed by linear combinations (e.g., averaged). For e.g, consider the multiple correlation of vectors representing bank1 and bank2, with the vector representing tech1.
+
+Also, define an aggregation function. The functionality of the aggregation function is (possibly) to reduce the number of input time series.
+
+Specifically:
+
+- Design and build an architecture that takes your dataset(s), a correlation function, and an appropriate aggregation function as inputs and discovers sets with a high multiple correlation coefficient (over a threshold). The value of is context-dependent and relies on the dataset and correlation/aggregation algorithm used. Set a value that produces about ten results. The code should not evaluate solutions that include multiple instances of a vector in the input parameters (e.g., in both in1 and in2).
+
+- Combine the two correlation functions mentioned before with two relevant aggregation functions and test the code using these.
+
+#### Overview
+
+Spark platform has been used for processing the big data and calculating the different aspects of the correlation measures. The data pre-processing is explained, followed by the description of system architecture and the parallel processing. Theoretical complexity and experimental performance have been analyzed followed by the meaningful insights.
+
+![Architecture](/img/architecture.png)
+
+#### Dataset
+
 The dataset contains trading data for 2182 unique stocks, on 40 unique stock exchanges. The monthly data is provided by stocks with each stock being associated with a specific stock exchange and is initially stored in the .txt format. Each file contains a trading history of a stock in a particular month and has the following schema.
 
 - Date (Calendar Year 2018)
@@ -11,4 +37,22 @@ The dataset contains trading data for 2182 unique stocks, on 40 unique stock exc
 - Volume (Sum of the volume of all transactions within this minute)
 The dataset can be downloaded from : [2018 Stock](https://www.kaggle.com/rhnfzl/stock-dataset-of-2018)
 
-![Architecture](/img/architecture.png)
+
+**Data Prepossessing**
+
+The data originating from different stock exchanges or different stocks within one stock exchange may differ in the frequency of updates, the number of missing values over time and is tied to the working hours of the corresponding stock exchange. To align the data for further analysis, the following steps were taken.
+
+- Yearly data : Monthly text files by stocks were combined into yearly files. Few stock exchanges, as well as several individual stocks, for which the trading data was not available for all of the 12 months, were excluded.
+ 
+- Frequency of updates. Studying the frequency of updates revealed that the vast majority of the stocks have a 1-minute frequency of updates, defined as the most frequent time interval between two subsequent entries. Therefore all the less frequently updated stocks were excluded as well.
+ 
+- Clustering. The stock exchanges were split into 4 clusters based on their working hours in CET: Asian, European, American and Common cluster with the latter cluster including stock exchanges that cannot be attributed to a specific timezone, such as forex, or can be attributed to more than one. European cluster (14 stock exchanges) was chosen to be the focus of the analysis.
+
+- Data incompleteness. The analysis showed that although having the needed 1-minute frequency of updates, many stocks have a substantial number of missing values during the working hours, therefore such stocks, specifically those having less than 1000 entries per month (∼ 50 one-minute entries per working day), were also excluded, thereby leaving 540 stocks traded on 14 European stock exchanges to proceed with.
+
+- Aggregating. The data was aggregated by resampling to 1-hour frequency, using mean as the aggregation function. Timestamp label of a specific hour was tied to the right end of the 1-hour averaging interval.
+
+- Finalizing the dataset. In order to deal with the increased computational complexity of the task, a subset of 450 vectors was created by, firstly, choosing 225 stocks on 2 European stock exchanges: London Stock Exchange and Xetra, secondly, taking 2 columns per stock (Close price, Volume) and further, taking only the data for the Q1 of 2018. Finally, the null values were dropped, as the timestamps of the 2 selected stock exchanges were matching well for all stocks (almost no data loss), and the dataset was rounded to 4 decimals to reduce the resulting file size. The rounding precision parameter was chosen such that the rounding effect on the output of correla- tions calculation is negligible. Then, the dataset was transposed before saving for convenience of processing in Spark.
+
+
+
