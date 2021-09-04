@@ -2,4 +2,4 @@
 
 
 
-![Architecture](https://github.com/rhnfzl/correlation-stock-2018-pyspark/blob/main/img/architecture.png)
+![Architecture](/img/architecture.png)
