@@ -78,6 +78,20 @@ Since we need to calculate multiple correlations and, particularly, correlations
 The Total correlation was defined as TotalCorr{aggfunc2(A, B, C)}, where A, B, C denote the 3 distinct vectors and aggfunc2(vectorsList) is an aggregation function that ouputs a list of vectors.
 
 **Aggregation**
+
 Two types of aggregation functions were used: 
 (1) One that aggregates a list of vectors into one vector (used for Pearson's correlation) i.e Average aggregation function takes a list of vectors of the same length and outputs an average vector.
 (2) Second that aggregates a list of vectors into a list of vectors (used for Total correlation). i.e Identity Aggregation takes a list of vectors of the same length and outputs the same list of vectors.
+
+**System Architecture**
+
+Two approaches for calculation of multiple correlations were investigated. First approach is based on constructing a Cartesian product and the second approach, uses an auxiliary index structure that indexes all the combinations of 3 vectors. Both approaches are described with more details and Pyspark pseudocode below.
+
+- Approach 1
+```
+combinations = 
+    vectors.cartesian(vectors)
+           .cartesian(vectors)
+           .filter(lambda triplet:
+        vectorname1 < vectorname2 < vectorname3)
+```
