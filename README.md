@@ -54,5 +54,8 @@ The data originating from different stock exchanges or different stocks within o
 
 - Finalizing the dataset. In order to deal with the increased computational complexity of the task, a subset of 450 vectors was created by, firstly, choosing 225 stocks on 2 European stock exchanges: London Stock Exchange and Xetra, secondly, taking 2 columns per stock (Close price, Volume) and further, taking only the data for the Q1 of 2018. Finally, the null values were dropped, as the timestamps of the 2 selected stock exchanges were matching well for all stocks (almost no data loss), and the dataset was rounded to 4 decimals to reduce the resulting file size. The rounding precision parameter was chosen such that the rounding effect on the output of correla- tions calculation is negligible. Then, the dataset was transposed before saving for convenience of processing in Spark.
 
+**Correlation**
 
-
+- Pearson’s correlation is a measure of linear dependence, assigning a value between $−1$ and $1$, where $0$ indicates no correlation, $1$ is a perfect positive correlation and $−1$ is a perfect negative correlation. The formula is as follows.
+ 
+Since we need to calculate multiple correlations and, particularly, correlations of 3 vectors, Pearson's correlation for this setting was defined as $PearsonCorr\left( aggfunc1([\overrightarrow{A}]), \; aggfunc1([\overrightarrow{B}, \overrightarrow{C}]) \right)$, where $\overrightarrow{A}$, $\overrightarrow{B}$, $\overrightarrow{C}$ denote the 3 distinct vectors and $aggfunc1(vectorsList)$ is an aggregation function that ouputs \textit{one vector}. Moreover, for each set of 3 vectors, 3 correlations are calculated, corresponding to each possible pair of vectors to be aggregated as one of the arguments of the Pearson's correlation function.
