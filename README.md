@@ -89,9 +89,10 @@ Two approaches for calculation of multiple correlations were investigated. First
 
 - Approach 1
 ```
-combinations = 
-    vectors.cartesian(vectors)
-           .cartesian(vectors)
-           .filter(lambda triplet:
-        vectorname1 < vectorname2 < vectorname3)
+combinations = vectors.cartesian(vectors).cartesian(vectors).
+                   filter(lambda triplet:
+                       vectorname1 < vectorname2 < vectorname3)
 ```
+where the inequality sign above denotes alphabetical order ("A" < "B" < "C"). This way, only unique combinations of distinct vectors are left. However, as expected, the scalability of this approach turned out to be worse than that of the second approach since selecting only unique combinations by vector name resulted in very unbalanced partitions and thus in worse performance. Therefore, we decided to abandon its further development.
+
+- Approach 2
