@@ -104,4 +104,37 @@ Initially, the text file is parsed and transformed into a Spark DataFrame, havin
 |--------------------|-------------------|---|
 |London_AAL_Close_....|15.4492,15.4539...|  1|
 |London_AAL_Volume....|8212.3051,5014.3..|  2|
-|--------------------|-------------------|---|
+
+I. Auxiliary index structure : The idea is to generate key-value pairs, 3 pairs with the same key for each unique non-trivial combination of vectors such that these pairs are subsequently passed to reducers, which accumulate the lists of vectors to be further passed to correlation functions. The keys used to generate key-value pairs can be organized in a 3-D abstract table (cube) as shown in the picture below for a small example (N=7). The indices of unique combinations are displayed as solid cubes. This structure is not materialized, though its configuration is used to calculate the needed keys for each vector.
+
+![Architecture](/img/index_cube.png)
+
+II. Generating key-value pairs : The idea of producing key-value pairs is implemented as a generator function in Python, taking 3 arguments: $N$, number of vectors; $idx$, the index of a particular vector among all vectors; $[vector]$, a list containing the only element - the vector itself. This generator is then passed to the flatMap transformation applied to the RDD associated with the DataFrame mentioned above.
+```
+keyValPairs = 
+    vectors_df.rdd.flatMap(lambda tuple:
+      keyValPairs_generator(N, idx, [vector]))
+```
+
+Further, the RDD containing all generated key-value pairs is repartitioned (with the number of partitions equal to the number of available workers) based on the key value to ensure parallelism and then cached. It is worth noting that as $value$ is the (list with the) vector itself, not its name, it induces a certain memory overhead while caching, but this is easily managed both on a single machine and using a cluster.
+
+ III. Reduce by key : Subsequently, reduceByKey transformation is invoked (reduction: list concatenation). As each key is associated with exactly 3 generated key-value pairs by design, that results in a list of 3 vectors for each key after reduction. Finally, the list of vectors is passed to the aggregation and correlation functions to produce the output.
+ 
+For Pearson's correlation, there is an additional step after reduceByKey to produce 3 permutations of a given combination, accounting for the 3 possible pairs of vectors to be aggregated (averaged):
+```
+correlations = 
+  keyValPairs.reduceByKey(lambda a, b: a + b)
+  ###generate 3 permutations for Pearson###
+    .map(lambda vectors: (
+            v1.name, 
+            v2.name+"_aggwith_"+v3.name, 
+            PCorr(agg1([v1]), agg1([v2, v3]))))
+```
+For Total correlation the list is directly passed to the aggregation and correlation functions:
+```
+correlations = 
+  keyValPairs.reduceByKey(lambda a, b: a + b)
+    .map(lambda vectors: (
+            v1.name, v2.name, v3.name, 
+            TCorr(agg2([v1, v2, v3]))))
+```
