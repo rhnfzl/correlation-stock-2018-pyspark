@@ -138,3 +138,20 @@ correlations =
             v1.name, v2.name, v3.name, 
             TCorr(agg2([v1, v2, v3]))))
 ```
+
+
+**Distribution of Computation**
+
+Code were execued both in local computation, on a single machine using logical cores as independent workers (16 cores), as well as we set up a cluster in Microsoft Azure (with 3 worker nodes and the overall number of cores equal to 24) to compare the performance and the way workload is distributed. In both approaches described in the previous section, parallelism in computation were used.
+
+
+- In Aproach 1 unbalanced distribution of the workload were observed, primarily due to filtering of the set of combinations of the vectors (triplets) aimed at avoiding repeated (redundant) computation. More evidently than in the case of pairwise comparison, few overloaded partitions served as a bottleneck for computation, even though the cores of one machine could quickly switch between partitions (vectors set persists in memory). Therefore, we decided not to develop this approach further.
+
+- Approach 2 differs in the way the workload is distributed since repartitioning is explicitly invoked after producing key-value pairs: that is essential because the intention is for the pairs with the same key to occur in the same partition. A reasonable decision is to set the number of partitions after flatMap, thereby the number of reducers, equal to the number of available cores (16 locally and 24 for the cluster). In this case, the workload is perfectly balanced. Furthermore, in order to optimize our architecture and to avoid redundant computation, precomputation of several statistics for the vectors before passing them to the key-value pairs generator (see pseudocode example below) were performed.  Particularly, the number of the elements, sum of the elements, sum of their squares and entropy for each vector, and appended these values at the end of the vector. Accordingly, the correlation and aggregation functions were adjusted to make use of the precomputed statistics.
+
+```
+keyValPairs = 
+    vectors_df.rdd.map(lambda tuple:
+      (name, precompute_stats(vector), idx))
+                  .flatMap(...)
+```
