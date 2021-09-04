@@ -68,3 +68,10 @@ The data originating from different stock exchanges or different stocks within o
 Since we need to calculate multiple correlations and, particularly, correlations of 3 vectors, Pearson's correlation for this setting was defined as PearsonCorr{aggfunc(A), aggfunc(B, C)}, where A, B, C denote the 3 distinct vectors and aggfunc is an aggregation function that ouputs one vector. Moreover, for each set of 3 vectors, 3 correlations are calculated, corresponding to each possible pair of vectors to be aggregated as one of the arguments of the Pearson's correlation function.
 
 
+- Total Correlation is one of the generalizations of mutual information for multiple variables and is defined as the amount of information carried by each individual variable in addition to their joint entropy. Total correlation is always non-negative and it can be zero only if the variables are completely independent. It can be calculated as shown below:
+
+![equation](https://latex.codecogs.com/gif.latex?C\left(&space;X_{1},X_{2},\ldots&space;,X_{n}\right)&space;=\left[&space;\sum&space;_{i=1}H\left(&space;X_{i}\right)&space;\right]&space;-&space;H\left(&space;X_{1},X_{2},\ldots&space;,X_{n}\right))
+
+![H_x](https://latex.codecogs.com/gif.latex?H\left(&space;X_{i}\right) :  Information entropy of variable ![X_i](https://latex.codecogs.com/gif.latex?X_{i}). 
+
+
