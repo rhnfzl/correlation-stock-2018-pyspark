@@ -65,7 +65,7 @@ The data originating from different stock exchanges or different stocks within o
 ![n](https://latex.codecogs.com/gif.latex?n) : The size of the sample, 
  
  
-Since we need to calculate multiple correlations and, particularly, correlations of 3 vectors, Pearson's correlation for this setting was defined as PearsonCorr{aggfunc1(A), aggfunc1(B, C)}, where A, B, C denote the 3 distinct vectors and aggfunc1 is an aggregation function that ouputs one vector. Moreover, for each set of 3 vectors, 3 correlations are calculated, corresponding to each possible pair of vectors to be aggregated as one of the arguments of the Pearson's correlation function.
+Since it need to calculate multiple correlations and, particularly, correlations of 3 vectors, Pearson's correlation for this setting was defined as PearsonCorr{aggfunc1(A), aggfunc1(B, C)}, where A, B, C denote the 3 distinct vectors and aggfunc1 is an aggregation function that ouputs one vector. Moreover, for each set of 3 vectors, 3 correlations are calculated, corresponding to each possible pair of vectors to be aggregated as one of the arguments of the Pearson's correlation function.
 
 
 - Total Correlation is one of the generalizations of mutual information for multiple variables and is defined as the amount of information carried by each individual variable in addition to their joint entropy. Total correlation is always non-negative and it can be zero only if the variables are completely independent. It can be calculated as shown below:
@@ -93,7 +93,7 @@ combinations = vectors.cartesian(vectors).cartesian(vectors).
                    filter(lambda triplet:
                        vectorname1 < vectorname2 < vectorname3)
 ```
-where the inequality sign above denotes alphabetical order ("A" < "B" < "C"). This way, only unique combinations of distinct vectors are left. However, as expected, the scalability of this approach turned out to be worse than that of the second approach since selecting only unique combinations by vector name resulted in very unbalanced partitions and thus in worse performance. Therefore, we decided to abandon its further development.
+where the inequality sign above denotes alphabetical order ("A" < "B" < "C"). This way, only unique combinations of distinct vectors are left. However, as expected, the scalability of this approach turned out to be worse than that of the second approach since selecting only unique combinations by vector name resulted in very unbalanced partitions and thus in worse performance. Therefore, it was abandon for it's further development.
 
 - Approach 2
 
@@ -142,10 +142,10 @@ correlations =
 
 **Distribution of Computation**
 
-Code were execued both in local computation, on a single machine using logical cores as independent workers (16 cores), as well as we set up a cluster in Microsoft Azure (with 3 worker nodes and the overall number of cores equal to 24) to compare the performance and the way workload is distributed. In both approaches described in the previous section, parallelism in computation were used.
+Code were execued both in local computation, on a single machine using logical cores as independent workers (16 cores), as well as setup of a cluster in Microsoft Azure (with 3 worker nodes and the overall number of cores equal to 24) to compare the performance and the way workload is distributed. In both approaches described in the previous section, parallelism in computation were used.
 
 
-- In Aproach 1 unbalanced distribution of the workload were observed, primarily due to filtering of the set of combinations of the vectors (triplets) aimed at avoiding repeated (redundant) computation. More evidently than in the case of pairwise comparison, few overloaded partitions served as a bottleneck for computation, even though the cores of one machine could quickly switch between partitions (vectors set persists in memory). Therefore, we decided not to develop this approach further.
+- In Aproach 1 unbalanced distribution of the workload were observed, primarily due to filtering of the set of combinations of the vectors (triplets) aimed at avoiding repeated (redundant) computation. More evidently than in the case of pairwise comparison, few overloaded partitions served as a bottleneck for computation, even though the cores of one machine could quickly switch between partitions (vectors set persists in memory). Therefore, it was decided not to develop this approach further.
 
 - Approach 2 differs in the way the workload is distributed since repartitioning is explicitly invoked after producing key-value pairs: that is essential because the intention is for the pairs with the same key to occur in the same partition. A reasonable decision is to set the number of partitions after flatMap, thereby the number of reducers, equal to the number of available cores (16 locally and 24 for the cluster). In this case, the workload is perfectly balanced. Furthermore, in order to optimize our architecture and to avoid redundant computation, precomputation of several statistics for the vectors before passing them to the key-value pairs generator (see pseudocode example below) were performed.  Particularly, the number of the elements, sum of the elements, sum of their squares and entropy for each vector, and appended these values at the end of the vector. Accordingly, the correlation and aggregation functions were adjusted to make use of the precomputed statistics.
 
