@@ -156,7 +156,15 @@ keyValPairs =
                   .flatMap(...)
 ```
 
-## You can watch the demo of the project here :
+### You can watch the demo of the project here :
 
 <a href="https://youtu.be/dnfvP0mbC5A?t=11" target="_blank"><img src="https://img.youtube.com/vi/dnfvP0mbC5A/3.jpg"
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
+
+### Contributer Credits
+
+- [Kartik B Bhargav](https://github.com/bhargavkartik)
+- [Rehan Fazal](https://github.com/rhnfzl)
+- [Sukanya Patra](https://github.com/sukanyapatra1997)
+- [Stepan Veretennikov](https://github.com/stepanveret)
