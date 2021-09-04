@@ -59,5 +59,12 @@ The data originating from different stock exchanges or different stocks within o
 - Pearson’s correlation is a measure of linear dependence, assigning a value between −1 and 1, where 0 indicates no correlation, 1 is a perfect positive correlation and −1 is a perfect negative correlation. The formula is as follows.
 
 ![equation](https://latex.codecogs.com/gif.latex?r_{xy}=\dfrac&space;{\sum&space;^{n}_{i=1}\left(&space;x_{i}-\overline&space;{x}\right)&space;\left(&space;y_{i}-\overline&space;{y}\right)&space;}{\sqrt&space;{\sum&space;^{n}_{i=1}\left(&space;x_{i}-\overline&space;{x}\right)&space;^{2}}\sqrt&space;{\sum&space;^{n}_{i=1}\left(&space;y_{i}-\overline&space;{y}\right)&space;^{2}}})
+
+![x](https://latex.codecogs.com/gif.latex?\overline{x}) : Average value of x
+![xi](https://latex.codecogs.com/gif.latex?x_{i}) : value of x at time i
+![n](https://latex.codecogs.com/gif.latex?n) : The size of the sample
  
-Since we need to calculate multiple correlations and, particularly, correlations of 3 vectors, Pearson's correlation for this setting was defined as $PearsonCorr\left( aggfunc1([\overrightarrow{A}]), \; aggfunc1([\overrightarrow{B}, \overrightarrow{C}]) \right)$, where $\overrightarrow{A}$, $\overrightarrow{B}$, $\overrightarrow{C}$ denote the 3 distinct vectors and $aggfunc1(vectorsList)$ is an aggregation function that ouputs \textit{one vector}. Moreover, for each set of 3 vectors, 3 correlations are calculated, corresponding to each possible pair of vectors to be aggregated as one of the arguments of the Pearson's correlation function.
+ 
+Since we need to calculate multiple correlations and, particularly, correlations of 3 vectors, Pearson's correlation for this setting was defined as PearsonCorr{aggfunc(A), aggfunc(B, C)}, where A, B, C denote the 3 distinct vectors and aggfunc is an aggregation function that ouputs one vector. Moreover, for each set of 3 vectors, 3 correlations are calculated, corresponding to each possible pair of vectors to be aggregated as one of the arguments of the Pearson's correlation function.
+
+
