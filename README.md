@@ -65,7 +65,7 @@ The data originating from different stock exchanges or different stocks within o
 ![n](https://latex.codecogs.com/gif.latex?n) : The size of the sample, 
  
  
-Since we need to calculate multiple correlations and, particularly, correlations of 3 vectors, Pearson's correlation for this setting was defined as PearsonCorr{aggfunc(A), aggfunc(B, C)}, where A, B, C denote the 3 distinct vectors and aggfunc is an aggregation function that ouputs one vector. Moreover, for each set of 3 vectors, 3 correlations are calculated, corresponding to each possible pair of vectors to be aggregated as one of the arguments of the Pearson's correlation function.
+Since we need to calculate multiple correlations and, particularly, correlations of 3 vectors, Pearson's correlation for this setting was defined as PearsonCorr{aggfunc1(A), aggfunc1(B, C)}, where A, B, C denote the 3 distinct vectors and aggfunc1 is an aggregation function that ouputs one vector. Moreover, for each set of 3 vectors, 3 correlations are calculated, corresponding to each possible pair of vectors to be aggregated as one of the arguments of the Pearson's correlation function.
 
 
 - Total Correlation is one of the generalizations of mutual information for multiple variables and is defined as the amount of information carried by each individual variable in addition to their joint entropy. Total correlation is always non-negative and it can be zero only if the variables are completely independent. It can be calculated as shown below:
@@ -75,3 +75,9 @@ Since we need to calculate multiple correlations and, particularly, correlations
 ![H_x](https://latex.codecogs.com/gif.latex?H\left(&space;X_{i}\right)) :  Information entropy of variable ![X_i](https://latex.codecogs.com/gif.latex?X_{i}). 
 
 
+The Total correlation was defined as TotalCorr{aggfunc2(A, B, C)}, where A, B, C denote the 3 distinct vectors and aggfunc2(vectorsList) is an aggregation function that ouputs a list of vectors.
+
+**Aggregation**
+Two types of aggregation functions were used: 
+(1) One that aggregates a list of vectors into one vector (used for Pearson's correlation) i.e Average aggregation function takes a list of vectors of the same length and outputs an average vector.
+(2) Second that aggregates a list of vectors into a list of vectors (used for Total correlation). i.e Identity Aggregation takes a list of vectors of the same length and outputs the same list of vectors.
