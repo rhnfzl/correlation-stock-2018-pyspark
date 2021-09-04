@@ -162,7 +162,7 @@ keyValPairs =
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 
-### Contributer Credits
+### Team Members
 
 - [Kartik B Bhargav](https://github.com/bhargavkartik)
 - [Rehan Fazal](https://github.com/rhnfzl)
