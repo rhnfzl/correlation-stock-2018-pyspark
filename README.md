@@ -99,9 +99,9 @@ where the inequality sign above denotes alphabetical order ("A" < "B" < "C"). Th
 
 Initially, the text file is parsed and transformed into a Spark DataFrame, having the following format:
 
-+--------------------+-------------------+---+
+
 |                name|             values|idx|
-+--------------------+-------------------+---+
+|--------------------|-------------------|---|
 |London_AAL_Close_....|15.4492,15.4539...|  1|
 |London_AAL_Volume....|8212.3051,5014.3..|  2|
-+--------------------+-------------------+---+
+|--------------------|-------------------|---|
