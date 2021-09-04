@@ -72,6 +72,6 @@ Since we need to calculate multiple correlations and, particularly, correlations
 
 ![equation](https://latex.codecogs.com/gif.latex?C\left(&space;X_{1},X_{2},\ldots&space;,X_{n}\right)&space;=\left[&space;\sum&space;_{i=1}H\left(&space;X_{i}\right)&space;\right]&space;-&space;H\left(&space;X_{1},X_{2},\ldots&space;,X_{n}\right))
 
-![H_x](https://latex.codecogs.com/gif.latex?H\left(&space;X_{i}\right) :  Information entropy of variable ![X_i](https://latex.codecogs.com/gif.latex?X_{i}). 
+![H_x](https://latex.codecogs.com/gif.latex?H\left(&space;X_{i}\right)) :  Information entropy of variable ![X_i](https://latex.codecogs.com/gif.latex?X_{i}). 
 
 
