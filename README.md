@@ -155,3 +155,8 @@ keyValPairs =
       (name, precompute_stats(vector), idx))
                   .flatMap(...)
 ```
+
+## You can watch the demo of the project here :
+
+<a href="https://youtu.be/dnfvP0mbC5A?t=11" target="_blank"><img src="https://img.youtube.com/vi/dnfvP0mbC5A/3.jpg"
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
