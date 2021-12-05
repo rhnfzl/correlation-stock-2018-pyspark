@@ -1,0 +1,106 @@
+sudo apt-get update
+
+sudo apt install python3-pip
+
+'wasb:///dataset/2018_European_6480_agg_60min__aligned_by_Q1__round4.txt'
+
+'wasb://group12hdinsight-2020-06-01t11-36-58-939z@group12blobhdfs.blob.core.windows.net/dataset/2018_European_6480_agg_60min__aligned_by_Q1__round4.txt'
+
+csvFile = spark.read.csv('wasb:///HdiSamples/HdiSamples/SensorSampleData/hvac/HVAC.csv', header=True, inferSchema=True)
+
+///dataset/2018_European_6480_agg_60min__aligned_by_Q1__round4.txt
+
+group12blobhdfs
+
+sudo /usr/bin/anaconda/bin/conda install matplotlib -n py35new --yes
+
+conda install -c plotly plotly
+
+sudo /usr/bin/anaconda/bin/conda install plotly plotly
+
+sudo /usr/bin/anaconda/bin/conda install numpy
+
+sudo /usr/bin/anaconda/bin/conda pip3 install numpy
+
+pip3 install jupyter
+
+
+sudo apt-get install default-jre
+
+Check : java -version
+
+sudo apt-get install scala
+
+Check : scala -version
+
+pip3 install py4j
+
+wget http://archive.apache.org/dist/spark/spark-2.4.5/spark-2.4.5-bin-hadoop2.7.tgz
+
+sudo tar -zxvf spark-2.4.5-bin-hadoop2.7.tgz
+
+*Important File Path*
+cd spark-2.4.5-bin-hadoop2.7
+
+*Back to Home Directory*
+cd
+
+pip3 install findspark
+
+jupyter notebook --generate-config
+
+jupyter-notebook --generate-config
+
+*Jupyter Notebook .py file*
+/home/ubuntu/.jupyter/jupyter_notebook_config.py
+
+/home/ubuntu/.jupyter/jupyter_notebook_config.py
+
+cd
+
+mkdir certs
+
+
+cd certs
+
+*Creating .pem file for jupyter configuration*
+
+
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.pem -out mycert.pem
+
+
+cd ~/.jupyter/
+
+
+vi jupyter_notebook_config.py 
+
+
+press i in the keyboard to edit the file
+
+*****************************************
+c = get_config()
+c.NotebookApp.certfile = u'/home/ubuntu/certs/mycert.pem'
+c.NotebookApp.ip = '*'
+c.NotebookApp.open_browser = False
+c.NotebookApp.port = 8888
+*******************************************
+
+:
+
+wq!
+
+
+cd
+
+jupyter notebook
+
+
+import findspark
+
+findspark.init('/home/ubuntu/spark-2.4.5-bin-hadoop2.7')
+
+import pyspark
+
+
+
+

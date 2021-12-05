@@ -1,0 +1,109 @@
+conf = SparkConf()\
+    .setAppName(APPNAME)\
+    .setMaster("local[*]")\
+    .setAll([
+    #("spark.driver.cores", 12),
+    ("spark.driver.memory", "200G"),
+    ("spark.driver.maxResultSize", "200G"),
+    #("spark.executor.instances", 6),
+    #("spark.executor.cores", 2),
+    #("spark.executor.memory", '512MB'),
+    #("spark.dynamicAllocation.enabled", "true"),
+    #("spark.sql.execution.arrow.enabled", "true")
+    #("spark.speculation","false")
+    #("spark.serializer.objectStreamReset", -1) # for Java serializer (default)
+    
+    ("spark.serializer", "org.apache.spark.serializer.KryoSerializer"),
+    ("spark.kryoserializer.buffer.max", "1G"), # default 64m
+    ("spark.kryoserializer.buffer", "64m"), # default 64k
+    ("spark.kryo.unsafe", "true"),
+    
+    ("spark.python.worker.memory", "1G"), # default 512m
+    ("spark.rdd.compress", "true"), #This is done
+    ])
+#####################################Setting Up HDInsight#######################################
+
+spark.driver.cores - Custom spark2-thrift-sparkconf
+
+
+spark.driver.memory 200G - Custom spark2-defaults
+https://docs.microsoft.com/en-us/azure/hdinsight/spark/apache-troubleshoot-spark
+
+spark.driver.maxResultSize - Not sure
+https://docs.microsoft.com/en-us/azure/databricks/kb/jobs/job-fails-maxresultsize-exception
+https://docs.microsoft.com/en-us/azure/databricks/clusters/configure#spark-config
+
+spark.executor.instances - Custom spark2-defaults
+
+spark.executor.cores - Custom spark2-defaults and Custom spark2-thrift-sparkconf
+
+spark.executor.memory - Custom spark2-defaults and Custom spark2-thrift-sparkconf
+
+spark.dynamicAllocation.enabled - Custom spark2-thrift-sparkconf
+
+spark.serializer - Already Set
+
+spark.kryoserializer.buffer.max 2047m - Custom spark2-thrift-sparkconf
+
+spark.kryoserializer.buffer - Not Sure
+
+spark.kryo.unsafe - Not Sure
+
+spark.python.worker.memory - Not Sure
+https://stackoverflow.com/questions/39878846/how-does-spark-running-on-yarn-account-for-python-memory-usage
+https://docs.microsoft.com/en-us/azure/data-factory/v1/data-factory-spark
+
+spark.rdd.compress - Already Set
+
+
+###################################First Time Setup#################################
+https://deepumohan.com/tech/install-additional-python-packages-on-azure-hdinsights-cluster/
+
+#In Custom spark2-defaults
+spark.driver.maxResultSize = 10g
+spark.driver.memory = 10g
+spark.python.worker.memory = 2g
+
+
+#In Custom spark2-thrift-sparkconf
+spark.kryoserializer.buffer = 64m
+spark.kryoserializer.buffer.max = 2047m
+spark.kryo.unsafe = true
+
+#In Putty
+sudo apt-get update
+sudo /usr/bin/anaconda/bin/conda update numpy
+
+
+
+	Python 2.7		Python 3.5
+Path	/usr/bin/anaconda/bin	/usr/bin/anaconda/envs/py35/bin
+Spark	Default set to 2.7	N/A
+Livy	Default set to 2.7	N/A
+Jupyter	PySpark kernel		PySpark3 kernel
+
+
+###############################################
+sudo /usr/bin/anaconda/bin/conda install matplotlib
+
+sudo /usr/bin/anaconda/bin/conda install plotly
+
+sudo /usr/bin/anaconda/bin/conda update numpy==1.16.6
+
+
+sudo /usr/bin/anaconda/bin/conda install jupyter
+
+sudo /usr/bin/anaconda/bin/conda install numpy==1.16.6
+
+sudo /usr/bin/anaconda/bin/conda install pandas==1.0.0
+
+sudo /usr/bin/anaconda/bin/conda uninstall jupyter
+sudo /usr/bin/anaconda/bin/conda uninstall numpy
+
+/usr/bin/anaconda/bin/conda --v
+
+https://repo.anaconda.com/pkgs/main/linux-64
+https://repo.anaconda.com/pkgs/main/noarch
+https://repo.anaconda.com/pkgs/r/linux-64
+https://repo.anaconda.com/pkgs/r/noarch
+
